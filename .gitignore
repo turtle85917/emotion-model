@@ -2,3 +2,6 @@
 
 /dataset/**/*
 !/dataset/.gitkeep
+dataset.csv
+
+__pycache__
