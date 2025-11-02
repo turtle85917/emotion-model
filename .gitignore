@@ -1,7 +1,11 @@
+.cache
 .venv
 
 /dataset/**/*
 !/dataset/.gitkeep
 dataset.csv
+
+emotion_classification.json
+emotion_classification.keras
 
 __pycache__
