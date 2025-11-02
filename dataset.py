@@ -2,7 +2,6 @@ import os
 import cv2
 from mediapipe.python.solutions import face_mesh
 import utils
-from utils import pickUpSpecificPointsInFace
 
 DATASET_FOLDER = "./dataset/"
 
@@ -28,21 +27,12 @@ with face_mesh.FaceMesh(
       image = cv2.imread(imgPath)
       image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
       image = cv2.flip(image, 1)
-      face_result = face.process(image)
-      if face_result.multi_face_landmarks is None or len(face_result.multi_face_landmarks) == 0:
+      faceResult = face.process(image)
+      if faceResult.multi_face_landmarks is None or len(faceResult.multi_face_landmarks) == 0:
         print(f"[{file}] 얼굴 감지 실패함")
         continue
-      oneFace = face_result.multi_face_landmarks[0].landmark
-      indices = [
-        *pickUpSpecificPointsInFace(oneFace, utils.FACEMESH_LIPS_IDX),
-        *pickUpSpecificPointsInFace(oneFace, utils.FACEMESH_LEFT_EYE_IDX),
-        *pickUpSpecificPointsInFace(oneFace, utils.FACEMESH_LEFT_EYEBROW_IDX),
-        *pickUpSpecificPointsInFace(oneFace, utils.FACEMESH_RIGHT_EYE_IDX),
-        *pickUpSpecificPointsInFace(oneFace, utils.FACEMESH_RIGHT_EYEBROW_IDX),
-        *pickUpSpecificPointsInFace(oneFace, utils.FACEMESH_NOSE_IDX),
-      ]
-      positions = list(map(lambda x: f"{x[0]},{x[1]},{x[2]}", indices))
-      f.write(f"{','.join(positions)},{item}\n")
+      faceLandmarks = faceResult.multi_face_landmarks[0].landmark
+      f.write(f"{','.join(map(str, utils.getModelInput(faceLandmarks)))},{item}\n")
       print(f"[{file}] 얼굴 감지 성공!")
 
 f.close()

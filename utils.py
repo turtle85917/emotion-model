@@ -1,3 +1,5 @@
+CLASS = ["angry", "disgust", "fear", "happy", "neutral", "sad", "surprise"]
+
 FACEMESH_LIPS_IDX = [0, 267, 269, 270, 13, 14, 17, 402, 146, 405, 409, 415, 291, 37, 39, 40, 178, 308, 181, 310, 311, 312, 185, 314, 317, 318, 61, 191, 321, 324, 78, 80, 81, 82, 84, 87, 88, 91, 95, 375]
 FACEMESH_LEFT_EYE_IDX = [384, 385, 386, 387, 388, 390, 263, 362, 398, 466, 373, 374, 249, 380, 381, 382]
 FACEMESH_LEFT_EYEBROW_IDX = [293, 295, 296, 300, 334, 336, 276, 282, 283, 285]
@@ -7,3 +9,18 @@ FACEMESH_NOSE_IDX = [1, 2, 4, 5, 6, 19, 275, 278, 294, 168, 45, 48, 440, 64, 195
 
 def pickUpSpecificPointsInFace(face:any, indices:list[int])->list[tuple[int]]:
   return [(face[i].x, face[i].y, face[i].z) for i in indices]
+
+def getModelInput(face:any)->list[float]:
+  indices = [
+    *pickUpSpecificPointsInFace(face, FACEMESH_LIPS_IDX),
+    *pickUpSpecificPointsInFace(face, FACEMESH_LEFT_EYE_IDX),
+    *pickUpSpecificPointsInFace(face, FACEMESH_LEFT_EYEBROW_IDX),
+    *pickUpSpecificPointsInFace(face, FACEMESH_RIGHT_EYE_IDX),
+    *pickUpSpecificPointsInFace(face, FACEMESH_RIGHT_EYEBROW_IDX),
+    *pickUpSpecificPointsInFace(face, FACEMESH_NOSE_IDX),
+  ]
+  res = []
+  for item in indices:
+    res.extend(list(item))
+  return res
+  # return ', '.join(list(map(lambda x: f"{x[0]},{x[1]},{x[2]}", indices)))
