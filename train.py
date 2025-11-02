@@ -42,6 +42,6 @@ model = keras.models.Sequential([
 ])
 
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
-# model.fit(x, y, validation_split=0.1, epochs=75, batch_size=32)
-# model.save("emotion_classification.keras")
+model.fit(x, y, validation_split=0.1, epochs=75, batch_size=32)
+model.save("emotion_classification.keras")
 joblib.dump(scaler, "scaler.pkl")
