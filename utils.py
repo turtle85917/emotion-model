@@ -1,4 +1,6 @@
-CLASS = ["angry", "disgust", "fear", "happy", "neutral", "sad", "surprise"]
+import math
+
+CLASS = ["angry", "happy", "neutral", "sad", "surprise"]
 
 FACEMESH_LIPS_IDX = [0, 267, 269, 270, 13, 14, 17, 402, 146, 405, 409, 415, 291, 37, 39, 40, 178, 308, 181, 310, 311, 312, 185, 314, 317, 318, 61, 191, 321, 324, 78, 80, 81, 82, 84, 87, 88, 91, 95, 375]
 FACEMESH_LEFT_EYE_IDX = [384, 385, 386, 387, 388, 390, 263, 362, 398, 466, 373, 374, 249, 380, 381, 382]
@@ -24,3 +26,6 @@ def getModelInput(face:any)->list[float]:
     res.extend(list(item))
   return res
   # return ', '.join(list(map(lambda x: f"{x[0]},{x[1]},{x[2]}", indices)))
+
+def getRealPoint(x:float, base:int)->int:
+  return math.floor(x * base)
